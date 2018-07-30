@@ -1,0 +1,13 @@
+{% extends "student/equipmentlist.html" %}
+
+{% block button %}
+<td data-field="10" align="center" data-off="true">
+  <div class="layui-table-cell laytable-cell-1-10">
+    {% if equipment.eState == '借出' %}
+    <a class="return layui-btn layui-btn-danger layui-btn-xs" lay-event="del"  data-url=returnback?eid={{equipment.id}}>归还</a>
+    {% else %}
+    <a class="layui-btn layui-btn-disabled layui-btn-xs">归还</a>
+    {% endif %}
+  </div>
+</td>
+{% endblock button %}

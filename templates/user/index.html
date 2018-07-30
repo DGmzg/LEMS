@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>实验室设备管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../static/layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+   <style type="text/css">
+    .login-main {
+    padding-top: 100px;
+      width: 375px;
+      margin: 0 auto;
+  }
+  .login-header {
+      text-align: center;
+      padding: 5px
+  }
+  .login-header h2 {
+      margin-bottom: 10px;
+      font-weight: 300;
+      font-size: 30px;
+      color: #000
+  }
+  </style>
+</head>
+<body>
+
+
+
+<div class="login-main">
+   <div class="login-header"><h2>实验室设备管理系统</h2></div>
+  <div class="layui-tab layui-tab-card">
+  <ul class="layui-tab-title">
+    <li class="layui-this" style="width:42.5%">用户登录</li>
+    <li style="width:42.5%">用户注册</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+   <form class="layui-form layui-form-pane" id="login" method="post">
+        <div class="layui-form-item">
+          <label class="layui-form-label">学号</label>
+          <div class="layui-input-block">
+          <input type="text" name="userNum" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+        <input type="password" name="userPwd" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+       <input class="layui-btn layui-btn-fluid"   type="submit" lay-submit="" lay-filter="login" name="" value="登录">
+      </div>
+    </form>
+  </div>
+
+    <div class="layui-tab-item">
+    	<form class="layui-form layui-form-pane" id="register" method="post">
+        <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+        <input type="text" name="userName" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">学号</label>
+        <div class="layui-input-block">
+        <input type="text" name="userNum" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-block">
+        <input type="text" name="userPhone" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+        <input type="password" name="userPwd1" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+        <input type="password" name="userPwd2" lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+       <input class="layui-btn layui-btn-fluid"   type="submit" lay-submit="" lay-filter="register" name="" value="注册">
+      </div>
+    </form>
+    </div>
+
+
+</div>
+</div>
+
+</div>
+
+
+
+<script src="../../static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use('element', function(){
+  var $ = layui.jquery
+  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+  //触发事件
+  var active = {
+   tabChange: function(){
+      //切换到指定Tab项
+      element.tabChange('demo', '22'); //切换到：用户管理
+    }
+  };
+
+  $('.site-demo-active').on('click', function(){
+    var othis = $(this), type = othis.data('type');
+    active[type] ? active[type].call(this, othis) : '';
+  });
+
+
+  //自定义验证规则
+  form.verify({
+    title: function(value){
+      if(value.length = 0){
+        return '必填项不能为空';
+      }
+    }
+  });
+
+});
+
+layui.use(['layer', 'form'], function() {
+      var layer = layui.layer,$ = layui.jquery,form = layui.form;
+      form.on('submit(login)', function(data) {
+          $.ajax({
+              url:"checklogin",
+              data:data.field,
+              dataType:'json',
+              type:'post',
+              beforeSend: function () {
+              $("#btnSave").addClass('layui-btn-disabled').text('正在登录...');
+               },
+              success:function(data) {
+                if (data.code === 0){
+                  layer.msg('登录成功,正在跳转...');
+                  setTimeout(function() {
+                      location.href = 'teacher/show';
+                  }, 500);
+                }else if (data.code === 1){
+                  layer.msg('登录成功,正在跳转...');
+                  setTimeout(function() {
+                      location.href = 'student/show';
+                  }, 500);
+                }else if (data.code === 2){
+                  layer.msg('密码错误！',
+                  {
+                    time: 500
+                  });
+                }else if (data.code === 3){
+                  layer.msg('用户不存在，请注册后登录！',
+                  {
+                    time: 500
+                  });
+                }else{
+                  $("#btnSave").removeClass('layui-btn-disabled').text('立即登录');
+                    layer.msg(data.msg);
+                }
+              }
+          });
+          return false;
+      });
+    });
+layui.use(['layer', 'form'], function() {
+      var layer = layui.layer,$ = layui.jquery,form = layui.form;
+      form.on('submit(register)', function(data) {
+          $.ajax({
+              url:"register",
+              data:data.field,
+              dataType:'json',
+              type:'post',
+              beforeSend: function () {
+              $("#btnSave").addClass('layui-btn-disabled').text('正在注册...');
+               },
+              success:function(data) {
+                if (data.code === 1){
+                  layer.msg('两次密码不一致!',
+                  {
+                    time: 500
+                  });
+                }else if (data.code === 2) {
+                    layer.msg('用户已存在，请直接登录！');
+                    setTimeout(function () {
+                        location.href = '';
+                    }, 500);
+                }else if (data.code === 4){
+                  layer.msg('学号和手机号必须为数字！', {
+                    time: 500
+                  });
+                }else if (data.code === 3){
+                  layer.msg('注册成功，请登录！');
+                  setTimeout(function() {
+                      location.href = '';
+                  }, 500);
+                }else{
+                  $("#btnSave").removeClass('layui-btn-disabled').text('立即登录');
+                    layer.msg(data.msg);
+                }
+              }
+          });
+          return false;
+      });
+    });
+</script>
+
+</body>
+</html>
+

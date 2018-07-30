@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+  <title>实验室设备管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../static/layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+  <title></title>
+</head>
+<body>
+  <form class="layui-form layui-form-pane" lay-filter="example" id="update" method ="post">
+      <div class="layui-form-item">
+        <label class="layui-form-label">设备类别</label>
+        <div class="layui-input-block">
+            <label>
+                <select name="eKind">
+                    <option value="{{equipment.eKind}}" selected="selected">{{equipment.eKind}}</option>
+                    <option value="计算机类">计算机类</option>
+                    <option value="化学类">化学类</option>
+                    <option value="机械类">机械类</option>
+                    <option value="物理类">物理类</option>
+                    <option value="生物类">生物类</option>
+                    <option value="其它类">其它类</option>
+                </select>
+            </label>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">设备名称</label>
+        <div class="layui-input-block">
+        <input type="text" name="eName" lay-verify="required" placeholder="请输入" value="{{equipment.eName}}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">所在实验室</label>
+        <div class="layui-input-block">
+        <input type="text" name="eRoom" lay-verify="required" placeholder="请输入" value="{{equipment.eRoom}}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">负责教师</label>
+        <div class="layui-input-block">
+        <input type="text" name="tName" lay-verify="required" placeholder="请输入" value="{{equipment.eTeacher.tName}}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">教师电话</label>
+        <div class="layui-input-block">
+        <input type="text" name="tPhone" lay-verify="required" value="{{equipment.eTeacher.tPhone}}" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+       <input class="layui-btn layui-btn-fluid"   type="submit" lay-submit="" lay-filter="update" name="" value="更新">
+      </div>
+  </form>
+
+ <script src="../../static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['layer', 'form'], function() {
+      var layer = layui.layer,$ = layui.jquery,form = layui.form;
+      form.on('submit(update)', function(data) {
+          $.ajax({
+              url:"update?eid={{equipment.id}}",
+              data:data.field,
+              dataType:'json',
+              type:'post',
+
+              success:function(data) {
+                if (data.code ===1){
+                  layer.msg('更新失败！');
+                  setTimeout(function() {
+                      location.href = location.href;
+                  }, 500);
+                }else if (data.code === 2){
+                  layer.msg('更新成功！');
+                  setTimeout(function() {
+                      location.href = location.href;
+                  }, 500);
+
+                }
+              }
+          });
+          return false;
+      });
+    });
+</script>
+
+</body>
+</html>

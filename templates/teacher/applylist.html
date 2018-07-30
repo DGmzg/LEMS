@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>实验室设备管理系统</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../../static/layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+<table class="layui-table">
+<!-- lay-data="{width: 892, height:332, url:'/demo/table/user/', page:true, id:'idTest'}" lay-filter="demo" -->
+  <thead>
+    <tr>
+      <th lay-data="{field:'sort', width:80, sort: true, fixed: left}">序号</th>
+      <th lay-data="{field:'kind', width:80}">姓名</th>
+      <th lay-data="{field:'name', width:80, sort: true}">学号</th>
+      <th lay-data="{field:'id', width:80}">电话</th>
+      <th lay-data="{field:'id', width:80}">归还设备名称</th>
+      <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for equipment in equipments %}
+
+    <tr data-index="0" class="">
+      <td data-field="sort">
+        <div class="layui-table-cell laytable-cell-1-id">{{forloop.counter}}</div>
+      </td>
+      <td data-field="kind">
+        <div class="layui-table-cell laytable-cell-1-username">{{equipment.eStudent.userName}}</div>
+      </td>
+      <td data-field="name">
+        <div class="layui-table-cell laytable-cell-1-sex">{{equipment.eStudent.userNum}}</div>
+      </td>
+      <td data-field="id">
+        <div class="layui-table-cell laytable-cell-1-city">{{equipment.eStudent.userPhone}}</div>
+      </td>
+      <td data-field="id">
+        <div class="layui-table-cell laytable-cell-1-city">{{equipment.eName}}</div>
+      </td>
+
+      <td data-field="10" align="center" data-off="true">
+        <div class="layui-table-cell laytable-cell-1-10">
+          <a class="ok layui-btn layui-btn-xs" lay-event="edit" data-url=yes?eid={{equipment.id}}&uid={{equipment.eStudent.id}}>同意</a>
+        </div>
+      </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="../../static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script type="text/javascript">
+
+  layui.use('layer', function(){
+    var layer = layui.layer;
+    var $ = layui.jquery;
+    $(".ok").click(function() {
+      var url = $(this).attr("data-url");
+      $.get(url,function(data,status){
+        console.log(layer);
+        layer.msg(data, {time: 1000}, function() {
+          location.href = location.href;
+        });
+        // console.log(location.href);
+        // alert(data);
+      });
+    });
+
+
+  });
+
+</script>
+
+
+</body>
+</html>
